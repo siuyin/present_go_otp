@@ -26,7 +26,7 @@ seed.go:
 .play seed.go /S_S/,/S_E/
 
 * Making a hard to guess secret
-A hard to guess secret is just a string of say, 5 random bytes.
+A hard to guess secret is just a string of say, 5 random bytes (40-bits, 2^40-1 > 1e12).
 randBytes.go:
 .play randBytes.go /R_S/,/R_E/
 
