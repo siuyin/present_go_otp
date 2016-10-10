@@ -1,0 +1,59 @@
+One-Time Passwords in Go
+9 Oct 2016
+
+Loh Siu Yin
+Technology Consultant, Beyond Broadcast LLP
+siuyin@beyondbroadcast.com
+
+* One-Time Passwords
+- Used in second-factor authentication (2FA).
+- Comes in two flavors:
+ HOTP: HMAC-based one-time password
+ TOTP: Time-based one-time password
+- Operating principle
+ hash(sharedSecret + counter)
+
+- hash is SHA-1
+- counter is a 8-byte big-endian unsigned integer
+ can be time-based if counter = Floor(Now() - Epoch() / timeStep)
+ where timeStep is usually 30 seconds.
+
+* Seeding the random generator
+noSeed.go:
+.play noSeed.go /NS_S/,/NS_E/
+
+seed.go:
+.play seed.go /S_S/,/S_E/
+
+* Making a hard to guess secret
+A hard to guess secret is just a string of say, 5 random bytes.
+.play randBytes.go /R_S/,/R_E/
+
+* HMAC -- Keyed-Hash Message Authentication Code
+hmac.go:
+.play -numbers hmac.go /H_S/,/H_E/
+Line 11: key is the secred shared between the server and the 2FA token.
+Line 13: The 8-byte "counter" is the message to be hashed.
+Line 14: mac.Sum extracts the SHA1 sum of the hased message.
+Line 16: Use hmac.Equal to compare sums to avoid timing issues.
+
+* HOTP -- HMAC-based One-Time Password
+hmac.go:
+.code -numbers hmac.go /T_S/,/T_E/
+.play -numbers hmac.go /C_S/,/C_E/
+
+RFC 4226 test data:
+
+ Count    Hexadecimal    Decimal        HOTP
+ 0        4c93cf18       1284755224     755224
+ 1        41397eea       1094287082     287082
+ 2         82fef30        137359152     359152
+ 3        66ef7655       1726969429     969429
+ 4        61c5938a       1640338314     338314
+ 5        33c083d4        868254676     254676
+ 6        7256c032       1918287922     287922
+
+* TOTP -- Time-based One-Time Password
+totp.go:
+.play -numbers totp.go /H_S/,/H_E/
+Compare with FreeOTP implementation. Use CDIWOBLY as the base32 encoded shared secret.
