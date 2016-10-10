@@ -27,6 +27,7 @@ seed.go:
 
 * Making a hard to guess secret
 A hard to guess secret is just a string of say, 5 random bytes.
+randBytes.go:
 .play randBytes.go /R_S/,/R_E/
 
 * HMAC -- Keyed-Hash Message Authentication Code
