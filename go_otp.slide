@@ -28,20 +28,22 @@ seed.go:
 * Making a hard to guess secret
 A hard to guess secret is just a string of say, 5 random bytes (40-bits, 2^40-1 > 1e12).
 randBytes.go:
-.play randBytes.go /R_S/,/R_E/
+.play -edit randBytes.go /R_S/,/R_E/
 
 * HMAC -- Keyed-Hash Message Authentication Code
 hmac.go:
-.play -numbers hmac.go /H_S/,/H_E/
+.play -edit -numbers hmac.go /H_S/,/H_E/
 Line 11: key is the secred shared between the server and the 2FA token.
 Line 13: The 8-byte "counter" is the message to be hashed.
 Line 14: mac.Sum extracts the SHA1 sum of the hased message.
 Line 16: Use hmac.Equal to compare sums to avoid timing issues.
 
+* Truncate
+.code -numbers hmac.go /T_S/,/T_E/
+
 * HOTP -- HMAC-based One-Time Password
 hmac.go:
-.code -numbers hmac.go /T_S/,/T_E/
-.play -numbers hmac.go /C_S/,/C_E/
+.play -edit -numbers hmac.go /C_S/,/C_E/
 
 RFC 4226 test data:
 

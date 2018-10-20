@@ -23,7 +23,10 @@ func main() {
 	key := []byte("12345678901234567890")
 	mac := hmac.New(sha1.New, key)
 	// C_S OMIT
-	mac.Write([]byte{0, 0, 0, 0, 0, 0, 0, 1}) // HOTP specifies 8-byte counter
+	buf := make([]byte, 8, 8)
+	i := uint64(1)
+	binary.BigEndian.PutUint64(buf, i)
+	mac.Write(buf)
 	// C_E OMIT
 	expectedMAC := mac.Sum(nil)
 	fmt.Printf("%x\n", expectedMAC)
