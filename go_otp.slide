@@ -7,9 +7,8 @@ siuyin@beyondbroadcast.com
 
 * One-Time Passwords
 - Used in second-factor authentication (2FA).
-- Comes in two flavors:
- HOTP: HMAC-based one-time password
- TOTP: Time-based one-time password
+- HOTP: HMAC-based one-time password
+- TOTP: Time-based one-time password
 - Operating principle
  hash(sharedSecret + counter)
 
