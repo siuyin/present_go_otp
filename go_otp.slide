@@ -15,35 +15,45 @@ siuyin@beyondbroadcast.com
 
 - hash is SHA-1
 - counter is a 8-byte big-endian unsigned integer
- can be time-based if counter = Floor(Now() - Epoch() / timeStep)
+- counter can be time-based: counter = Floor(Now() - Epoch() / timeStep)
  where timeStep is usually 30 seconds.
 
 * Seeding the random generator
 noSeed.go:
+
 .play noSeed.go /NS_S/,/NS_E/
 
 seed.go:
+
 .play seed.go /S_S/,/S_E/
 
 * Making a hard to guess secret
 A hard to guess secret is just a string of say, 5 random bytes (40-bits, 2^40-1 > 1e12).
 randBytes.go:
+
 .play -edit randBytes.go /R_S/,/R_E/
 
 * HMAC -- Keyed-Hash Message Authentication Code
 hmac.go:
-.play -edit -numbers hmac.go /H_S/,/H_E/
-Line 11: key is the secred shared between the server and the 2FA token.
-Line 13: The 8-byte "counter" is the message to be hashed.
-Line 14: mac.Sum extracts the SHA1 sum of the hased message.
-Line 16: Use hmac.Equal to compare sums to avoid timing issues.
+
+.play -edit hmac.go /H_S/,/H_E/
+1: key is the secred shared between the server and the 2FA token.
+2: The 8-byte "counter",i, is the message to be hashed.
+3: mac.Sum extracts the SHA1 sum of the hased message.
+4: Use hmac.Equal to compare sums to avoid timing issues.
 
 * Truncate
-.code -numbers hmac.go /T_S/,/T_E/
+
+.code hmac.go /T_S/,/T_E/
+
+The trucation algorithm is as specified in RFC4226:
+
+.link https://tools.ietf.org/html/rfc4226
 
 * HOTP -- HMAC-based One-Time Password
 hmac.go:
-.play -edit -numbers hmac.go /C_S/,/C_E/
+
+.play -edit hmac.go /C_S/,/C_E/
 
 RFC 4226 test data:
 
@@ -58,5 +68,6 @@ RFC 4226 test data:
 
 * TOTP -- Time-based One-Time Password
 totp.go:
-.play -numbers totp.go /H_S/,/H_E/
-Compare with FreeOTP implementation. Use CDIWOBLY as the base32 encoded shared secret.
+
+.play totp.go /H_S/,/H_E/
+Compare with FreeOTP implementation. Here CDIWOBLY is the base32 encoded shared secret.

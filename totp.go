@@ -25,11 +25,14 @@ func main() {
 	// H_S OMIT
 	key, _ := base32.StdEncoding.DecodeString("CDIWOBLY")
 	mac := hmac.New(sha1.New, key)
+
 	timeStep := time.Now().Unix() / 30
 	fmt.Printf("timestep is %d\n", timeStep)
+
 	buf := &bytes.Buffer{}
 	binary.Write(buf, binary.BigEndian, timeStep)
 	mac.Write(buf.Bytes())
+
 	expectedMAC := mac.Sum(nil)
 	fmt.Printf("TOTP is %06d\n", Truncate(expectedMAC))
 	// H_E OMIT

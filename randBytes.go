@@ -13,6 +13,7 @@ func main() {
 	b := make([]byte, 5, 5)          // make a slice of 5 bytes with a capacity of 5
 	rand.Read(b)
 	fmt.Println(b)
+
 	s := base32.StdEncoding.EncodeToString(b) // Note: no 0 (zeros) in StdEncoding
 	fmt.Println(s)                            // eg. CDIWOBLY
 	d, _ := base32.StdEncoding.DecodeString(s)
